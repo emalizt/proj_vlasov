@@ -12,11 +12,11 @@ def calculate_distance(V1, V2, S0, T):
     S_T = S0 + P
     return S_T
 
-# Пример использования функции
+# Использование функции
 V1 = float(input("Введите скорость первого автомобиля (км/ч): "))
 V2 = float(input("Введите скорость второго автомобиля (км/ч): "))
 S0 = float(input("Введите начальное расстояние между автомобилями (км): "))
 T = float(input("Введите время (часы): "))
-
+# вывод результата
 distance_after_T_hours = calculate_distance(V1, V2, S0, T)
 print(f"Расстояние между автомобилями через {T} часов: {distance_after_T_hours} км")
