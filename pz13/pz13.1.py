@@ -1,10 +1,8 @@
 def increase_non_diagonal_elements(matrix):
     for i in range(len(matrix)):
         for j in range(len(matrix[i])):
-            if i != j:  # Проверяем, не лежит ли элемент на главной диагонали
+            if i != j: 
                 matrix[i][j] *= 2
-
-# Пример использования
 matrix = [
     [1, 2, 3],
     [4, 5, 6],
