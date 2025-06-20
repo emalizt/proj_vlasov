@@ -6,11 +6,10 @@ book_stores = {
     'Галерея': ['Чехов', 'Тютчев', 'Пушкин']
 }
 
-# Ищем магазины, где есть Маяковский
+
 stores_with_mayakovsky = [store for store, books in book_stores.items() 
                          if 'Маяковский' in books]
 
-# Выводим результат
 print("Книги Маяковского можно приобрести в следующих магазинах:")
 for store in stores_with_mayakovsky:
     print(f"- {store}")
