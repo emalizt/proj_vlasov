@@ -1,11 +1,11 @@
 def has_positive_elements(matrix):
     for row in matrix:
         for element in row:
-            if element > 0:  # Проверяем, является ли элемент положительным
+            if element > 0:
                 return True
     return False
 
-# Пример использования
+
 matrix = [
     [-1, -2, -3],
     [-4, -5, -6],
