@@ -1,52 +1,97 @@
-def process_hotline_file(input_filename, output_filename):
-    with open(input_filename, 'r', encoding='utf-8') as f:
-        lines = f.readlines()
-    additions_count = 0
-    updated_lines = []
+import re
 
-    for line in lines:
-        if "Горячая линия" in line:
-            line = line.replace("Горячая линия", "Горячая линия Министерства образования Ростовской области")
-            additions_count += 1
-        updated_lines.append(line)
-    with open(output_filename, 'w', encoding='utf-8') as f:
-        f.writelines(updated_lines)
-    return additions_count
-def count_phone_numbers(input_filename):
-    with open(input_filename, 'r', encoding='utf-8') as f:
-        lines = f.readlines()
+def create_sample_file():
+    sample_text = """Горячая линия поддержки:
+Тел: +7(863)123-45-67
+Тел: 8-800-555-35-35
+Моб: +7918-555-44-33
+Факс: (863)234-56-78
+Экстренная связь: 112
+Резервный: 8-900-123-45-50"""
 
-    count_ends_03 = 0
-    count_ends_50 = 0
-    ege_gia_numbers = []
+    with open('hotline.txt', 'w', encoding='utf-8') as file:
+        file.write(sample_text)
+    print("Файл hotline.txt создан успешно!\n")
 
-    for line in lines:
+def process_hotline_file():
+    with open('hotline.txt', 'r', encoding='utf-8') as file:
+        content = file.read()
+    
+    print("Исходное содержимое файла:")
+    print("=" * 40)
+    print(content)
+    print("=" * 40)
+    print()
+    
+    pattern_hotline = r'Горячая линия'
+    new_content = re.sub(
+        pattern_hotline, 
+        r'Горячая линия\nМинистерства образования Ростовской области', 
+        content, 
+        count=1
+    )
+    
+    print("Содержимое после добавления фразы:")
+    print("=" * 40)
+    print(new_content)
+    print("=" * 40)
+    print()
+    
+    pattern_ministry = r'Министерства образования Ростовской области'
+    ministry_count = len(re.findall(pattern_ministry, new_content))
+    print(f"Количество добавленных фраз: {ministry_count}")
+    print()
+    
+    phone_pattern = r'\b[\d\-+()]{7,15}\b'
+    all_phones = re.findall(phone_pattern, content)
+    
+    print("Все найденные номера телефонов:")
+    for i, phone in enumerate(all_phones, 1):
+        print(f"{i}. {phone}")
+    print()
+    
+    phones_ending_3_or_50 = []
+    for phone in all_phones:
+        clean_phone = re.sub(r'\D', '', phone)
+        if clean_phone:
+            if clean_phone.endswith('3') or clean_phone.endswith('50'):
+                phones_ending_3_or_50.append(phone)
+    
+    print("Номера телефонов, заканчивающиеся на '3' или '50':")
+    for i, phone in enumerate(phones_ending_3_or_50, 1):
+        print(f"{i}. {phone}")
+    
+    print(f"\nКоличество номеров, заканчивающихся на '3' или '50': {len(phones_ending_3_or_50)}")
+    print()
+    
+    precise_phone_pattern = r'(\+?7?[-\s]?\(?\d{3}\)?[-\s]?\d{2,3}[-\s]?\d{2}[-\s]?\d{2})'
+    hotline_phones = re.findall(precise_phone_pattern, content)
+    
+    print("Номера телефонов горячих линий:")
+    for i, phone in enumerate(hotline_phones, 1):
+        print(f"{i}. {phone}")
+    
+    with open('hotline_processed.txt', 'w', encoding='utf-8') as file:
+        file.write("ОБРАБОТАННЫЕ ДАННЫЕ ГОРЯЧЕЙ ЛИНИИ\n")
+        file.write("=" * 50 + "\n\n")
+        file.write("Исходный текст с добавленной фразой:\n")
+        file.write(new_content + "\n\n")
+        file.write(f"Количество добавленных фраз: {ministry_count}\n\n")
+        file.write("Все номера телефонов:\n")
+        for i, phone in enumerate(all_phones, 1):
+            file.write(f"{i}. {phone}\n")
+        file.write("\n")
+        file.write("Номера, заканчивающиеся на '3' или '50':\n")
+        for i, phone in enumerate(phones_ending_3_or_50, 1):
+            file.write(f"{i}. {phone}\n")
+        file.write(f"Всего: {len(phones_ending_3_or_50)}\n\n")
+        file.write("Номера горячих линий:\n")
+        for i, phone in enumerate(hotline_phones, 1):
+            file.write(f"{i}. {phone}\n")
+    
+    print(f"\nРезультаты сохранены в файл: hotline_processed.txt")
 
-        if "ЕГЭ" in line or "ГИА" in line:
-
-            words = line.split()
-            for word in words:
-                if word.startswith('+7') or word.startswith('8'):
-                    if word.endswith('03'):
-                        count_ends_03 += 1
-                    elif word.endswith('50'):
-                        count_ends_50 += 1
-                    ege_gia_numbers.append(word)
-
-    return count_ends_03, count_ends_50, ege_gia_numbers
-
-
-input_file = 'hotline.txt'
-output_file = 'updated_hotline.txt'
-
-
-additions = process_hotline_file(input_file, output_file)
-print(f"Количество добавлений: {additions}")
-
-
-count_03, count_50, ege_gia_numbers = count_phone_numbers(input_file)
-print(f"Количество номеров, заканчивающихся на '03': {count_03}")
-print(f"Количество номеров, заканчивающихся на '50': {count_50}")
-print("Номера телефонов горячих линий, связанных с ЕГЭ/ГИА:")
-for number in ege_gia_numbers:
-    print(number)
+if __name__ == "__main__":
+    print("=== ОБРАБОТКА ФАЙЛА ГОРЯЧЕЙ ЛИНИИ ===\n")
+    create_sample_file()
+    process_hotline_file()
