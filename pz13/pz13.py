@@ -1,10 +1,18 @@
-import numpy as np
 
-matrix = np.array([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
-matrix = np.where(np.eye(matrix.shape[0], dtype=bool), matrix, matrix * 2)
+matrix = [
+    [1, 2, 3],
+    [4, 5, 6],
+    [7, 8, 9]
+]
 
+print("Исходная матрица:")
+for row in matrix:
+    print(row)
 
-has_positive = np.any(matrix > 0)
-
-print(matrix)
-print(has_positive)
+for i in range(len(matrix)): 
+    for j in range(len(matrix[i])): 
+        if i != j:  
+            matrix[i][j] = matrix[i][j] * 2  
+print("\nМатрица после преобразования:")
+for row in matrix:
+    print(row)
