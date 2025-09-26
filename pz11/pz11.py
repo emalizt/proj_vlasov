@@ -1,25 +1,54 @@
-def process_text_file(input_filename, output_filename):
-    with open(input_filename, 'r') as f:
-        content = f.read()
 
-
-    letter_count = sum(c.isalpha() for c in content)
-
-
-    lower_content = content.lower()
-
-
-    with open(output_filename, 'w') as f:
-        f.write(lower_content)
-
-    return letter_count
-
-
-text_file = 'text18-4.txt'
-new_text_file = 'lowercase_text.txt'
-
-
-letter_count = process_text_file(text_file, new_text_file)
-
-
-print(f"Количество букв в файле: {letter_count}")
+def create_initial_file():
+     numbers = [15, -3, 8, -12, 25, -7, 10, 4, -18, 6]
+    with open('numbers.txt', 'w', encoding='utf-8') as file:
+        for number in numbers:
+            file.write(str(number) + '\n')
+    
+    print("Файл numbers.txt создан успешно!")
+    return numbers
+def process_numbers():
+    numbers = []
+    with open('numbers.txt', 'r', encoding='utf-8') as file:
+        for line in file:
+            cleaned_line = line.strip()
+            if cleaned_line:  
+                numbers.append(int(cleaned_line))
+    count = len(numbers) 
+    min_element = numbers[0]
+    for i in range(1, len(numbers)):
+        if numbers[i] < min_element:
+            min_element = numbers[i]
+    
+    max_element = numbers[0]
+    for i in range(1, len(numbers)):
+        if numbers[i] > max_element:
+            max_element = numbers[i]
+    
+    multiplied_numbers = []
+    for number in numbers:
+        multiplied_numbers.append(number * max_element)
+    
+    with open('result.txt', 'w', encoding='utf-8') as file:
+        file.write("Исходные данные:\n")
+        file.write(" ".join(str(x) for x in numbers) + "\n\n")
+        
+        file.write("Количество элементов:\n")
+        file.write(str(count) + "\n\n")
+        
+        file.write("Минимальный элемент:\n")
+        file.write(str(min_element) + "\n\n")
+        
+        file.write("Элементы, умноженные на первый максимальный элемент:\n")
+        file.write(" ".join(str(x) for x in multiplied_numbers) + "\n")
+    
+    print("Файл result.txt создан успешно!")
+    
+    print("\nРезультаты обработки:")
+    print("Исходные данные:", numbers)
+    print("Количество элементов:", count)
+    print("Минимальный элемент:", min_element)
+    print("Максимальный элемент:", max_element)
+    print("Умноженные элементы:", multiplied_numbers)
+numbers_list = create_initial_file()
+process_numbers()
