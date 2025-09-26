@@ -1,34 +1,37 @@
-class Календарь:
-    def __init__(self, год, месяц, день):
-        self.год = год
-        self.месяц = месяц
-        self.день = день
+class Calendar:
+    def __init__(self, year, month, day):
+        self.year = year
+        self.month = month
+        self.day = day
 
-    def високосный_год(self):
-        return (self.год % 4 == 0 and self.год % 100 != 0) or (self.год % 400 == 0)
+    def is_leap_year(self):
+        return (self.year % 4 == 0 and self.year % 100 != 0) or (self.year % 400 == 0)
 
-    def количество_дней_в_месяце(self):
-        if self.месяц in [1, 3, 5, 7, 8, 10, 12]:
+    def days_in_month(self):
+        if self.month in [1, 3, 5, 7, 8, 10, 12]:
             return 31
-        elif self.месяц in [4, 6, 9, 11]:
+        elif self.month in [4, 6, 9, 11]:
             return 30
-        elif self.месяц == 2:
-            return 29 if self.високосный_год() else 28
+        elif self.month == 2:
+            return 29 if self.is_leap_year() else 28
         else:
-            raise ValueError("Некорректный месяц")
+            raise ValueError("Некорректный меся")
 
-    def день_недели(self):
-        q = self.день
-        m = self.месяц
+    def day_of_week(self):
+        q = self.day
+        m = self.month
+        year = self.year
+        
         if m < 3:
             m += 12
-            self.год -= 1
-        K = self.год % 100
-        J = self.год // 100
+            year -= 1
+            
+        K = year % 100
+        J = year // 100
         f = q + (13 * (m + 1)) // 5 + K + (K // 4) + (J // 4) - (2 * J)
         return f % 7
 
-календарь = Календарь(2023, 10, 5)
-print("Високосный год:", календарь.високосный_год())
-print("Количество дней в месяце:", календарь.количество_дней_в_месяце())
-print("День недели:", календарь.день_недели())
+calendar = Calendar(2023, 10, 5)
+print("Високосный год:", calendar.is_leap_year())
+print("Количество дней в месяце:", calendar.days_in_month())
+print("День недели:", calendar.day_of_week())
