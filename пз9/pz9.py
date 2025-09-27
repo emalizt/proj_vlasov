@@ -1,20 +1,19 @@
-def sum_half_dict(input_dict):
-    values = list(input_dict.values())
-    if len(values) % 2 != 0:
-        raise ValueError("Количество элементов в словаре должно быть четным.")
-    mid_index = len(values) // 2
-    first_half = values[:mid_index]
-    second_half = values[mid_index:]
-    sum_first_half = sum(first_half)
-    sum_second_half = sum(second_half)
-    print(f"Сумма первой половины: {sum_first_half}")
-    print(f"Сумма второй половины: {sum_second_half}")
-example_dict = {
-    'a': 1,
-    'b': 2,
-    'c': 3,
-    'd': 4,
-    'e': 5,
-    'f': 6
+dict = {
+        "a" : 12,
+        "b" : 14,
+        "c" : 5,
+        "d" : 2,
+        "e" : 11,
+        "f" : 17,
+        "g" : 8,
+        "h" : 1
 }
-sum_half_dict(example_dict)
+
+list = list(dict.values())
+
+first_half = list[:len(list) // 2]
+second_half = list[len(list) // 2 :]
+print("Исходный словарь: ", dict)
+
+print("Сумма значений первой половины: ", sum(first_half))
+print("Сумма значений второй половины: ", sum(second_half))
