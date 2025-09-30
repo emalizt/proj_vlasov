@@ -1,3 +1,4 @@
+#Составить генератор (yield), который выводит из строки только буквы.
 def letter_generator(input_string):
     for char in input_string:
         if char.isalpha():
